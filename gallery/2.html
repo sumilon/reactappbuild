@@ -1,0 +1,121 @@
+<html>
+<head>
+    <title>My Gallery</title>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .gallery {
+            width: 250px;
+            height: 300px;
+            line-height: 0;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: perspective(400px) rotateY(0deg);
+            transition: .2s;
+            &:hover {
+                transform: perspective(450px) rotateY(25deg);
+                div.box {
+                    img {
+                        filter: blur(0px);
+                    }
+                }
+            }
+        }
+
+        .box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            transition: .2s;
+            cursor: zoom-in;
+            &:nth-of-type(1) {
+                transform: translateZ(0px) translateX(0px);
+            }
+            &:nth-of-type(2) {
+                transform: translateZ(-40px) translateX(-40px);
+                img {
+                    filter: blur(1px);
+                }
+            }
+            &:nth-of-type(3) {
+                transform: translateZ(-80px) translateX(-80px);
+                img {
+                    filter: blur(2px);
+                }
+            }
+            &:nth-of-type(4) {
+                transform: translateZ(-120px) translateX(-120px);
+                img {
+                    filter: blur(3px);
+                }
+            }
+            &:nth-of-type(5) {
+                transform: translateZ(-160px) translateX(-160px);
+                img {
+                    filter: blur(4px);
+                }
+            }
+            &:nth-of-type(6) {
+                transform: translateZ(-200px) translateX(-200px);
+                img {
+                    filter: blur(5px);
+                }
+            }
+            &:focus {
+                transform: translateZ(120px) translateZ(0px);
+                outline: none;
+                img {
+                    filter: blur(0px);
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        <div class="box" tabindex="1" autofocus>
+            <img src="img/1.jpeg"/>
+            <!-- <img src="http://unsplash.it/500/600?image=1"/>	 -->
+        </div>
+        <div class="box" tabindex="2">
+            <img src="img/2.jpeg"/>
+            <!-- <img src="http://unsplash.it/500/600?image=2"/>	 -->
+        </div>
+        <div class="box" tabindex="3">
+            <img src="img/3.jpeg"/>
+            <!-- <img src="http://unsplash.it/500/600?image=3"/>	 -->
+        </div>
+        <div class="box" tabindex="4">
+            <img src="img/4.jpeg"/>
+            <!-- <img src="http://unsplash.it/500/600?image=4"/>	 -->
+        </div>
+        <div class="box" tabindex="5">
+            <img src="img/5.jpeg"/>
+            <!-- <img src="http://unsplash.it/500/600?image=5"/>	 -->
+        </div>
+        <div class="box" tabindex="6">
+            <img src="img/6.jpeg"/>
+            <!-- <img src="http://unsplash.it/500/600?image=6"/>	 -->
+        </div>
+    </div>
+</body>
+</html>
