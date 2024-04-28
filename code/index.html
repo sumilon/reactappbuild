@@ -1,0 +1,1523 @@
+<html>
+	<title>Advance Java</title>
+	<body>
+		<h3>Java New Features Code</h3>
+		<hr/>
+		AddParallelListApp.java
+		<pre>
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class AddParallelListApp {
+
+    public static void main(String[] args) {
+
+        List<String> names = Arrays.asList("aaa", "bbb", "ccc", "dddd");
+
+//        List<String> upperCaseNames = new ArrayList<>();
+//        names.parallelStream().map(e->e.toUpperCase()).forEach(e->upperCaseNames.add(e));
+
+        List<String> upperCaseNames = names.parallelStream().map(e->e.toUpperCase()).toList();
+
+        System.out.println(names);
+        System.out.println(upperCaseNames);
+    }
+}
+		</pre>
+		<hr/>
+		CollectionfactoriesApp.java
+		<pre>
+import java.util.Set;
+
+public class CollectionfactoriesApp {
+
+    public static void main(String[] args) {
+
+        // JDK 9 : Returns an unmodifiable set
+        Set<String> ss = Set.of("a", "b", "c");
+
+        // JDK 10 : Returns an unmodifiable Set
+        Set<String> ss1 = Set.copyOf(ss);
+
+        ss.add("d");  //not allowed
+
+        System.out.println(ss);
+        System.out.println(ss1);
+    }
+}
+		</pre>
+		<hr/>
+		CollectionListApp.java
+		<pre>
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class CollectionListApp {
+
+    public static void main(String[] args) {
+
+//        List<Integer> num = new ArrayList<>();
+//        Collection<Integer> num = new ArrayList<>();
+        var num = new ArrayList<>();
+
+        num.add(2);
+        num.add(3);
+        num.add(1);
+        num.add(5);
+        num.add(4);
+
+        System.out.println("Before : "+num);
+
+        num.remove(2);
+
+        System.out.println("After : "+num);
+    }
+}
+		</pre>
+		<hr/>
+		CopyOfApp.java
+		<pre>
+import java.util.ArrayList;
+import java.util.List;
+
+public class CopyOfApp {
+
+    public static void main(String[] args) {
+
+        List<String> stringList = new ArrayList<>();
+        stringList.add("aaa");
+        stringList.add("eee");
+        stringList.add("www");
+        stringList.add("hhh");
+
+        List<String> ee = List.copyOf(stringList);
+
+        System.out.println(ee);
+
+        System.out.println(stringList.equals(ee));
+    }
+
+}
+		</pre>
+		<hr/>
+		FileReadWriteApp.java
+		<pre>
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class FileReadWriteApp {
+
+    public static void main(String[] args) throws IOException {
+
+        Path path = Paths.get("sample.txt");
+        String data  = """
+                hello
+                    world
+                        welcome
+                            to
+                                Java
+                """;
+        Files.writeString(path, data);
+        System.out.println(Files.readString(path));
+    }
+}
+		</pre>
+		<hr/>
+		GenerictestApp.java
+		<pre>
+import java.util.function.Supplier;
+
+interface Source<T> {
+    void generate(Supplier<T> supplier);
+}
+
+class Generator<T> {
+    public static <T> Generator<T> create(Source<T> source) {
+        return null;
+    }
+}
+public class GenerictestApp {
+
+    public static void main(String[] args) {
+        Generator.<Integer>create(supplier -> generate(supplier));
+
+        System.out.println("OK");
+    }
+
+    public static void generate(Supplier<Integer> supplier) {}
+}
+		</pre>
+		<hr/>
+		GroupByApp.java
+		<pre>
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
+
+class Person {
+
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String toString() {
+        return String.format("%s === %d", name, age);
+    }
+}
+
+public class GroupByApp {
+
+    public static void main(String[] args) {
+
+        List<Person> personList = Arrays.asList(new Person("aaa", 34), new Person("fff", 45), new Person("rrr", 34), new Person("yyy", 45), new Person("aaa", 36));
+
+//        Map<Integer, List<Person>> peopleByAge = personList.stream().collect(groupingBy(Person::getAge));
+//        var peopleByAge = personList.stream().collect(groupingBy(Person::getAge));
+//        System.out.println(peopleByAge);
+
+//        personList.stream().forEach(System.out::println);
+
+//        var namesByAge = personList.stream().collect(groupingBy(Person::getAge, mapping(Person::getAge, toList())));
+        var namesByAge = personList.stream().collect(groupingBy(Person::getAge, mapping(Person::getAge, toSet())));
+
+        System.out.println(namesByAge);
+    }
+}
+		</pre>
+		<hr/>
+		InheritanceApp.java
+		<pre>
+class AA {
+    public void fly() {
+        System.out.println("Flying");
+    }
+}
+
+class BB extends AA {
+    public void run() {
+        System.out.println("Running");
+    }
+}
+
+public class InheritanceApp {
+
+    public static void main(String[] args) {
+
+//        AA a = new BB();
+        var a = new BB();
+        a.fly();
+        a.run();
+    }
+}
+		</pre>
+		<hr/>
+		IntStreamApp.java
+		<pre>
+import java.util.stream.IntStream;
+
+public class IntStreamApp {
+
+    public static void main(String[] args) {
+
+        for (int i = 0; ; i = i + 3) {
+            if (i > 20) {
+                break;
+            }
+            System.out.print(i + ", ");
+        }
+
+        //-------------------------------------------------------
+        // iterate(seed, [predicate], function)
+        System.out.println("-------------------------------------");
+        IntStream.iterate(0, e -> e + 3)
+                .takeWhile(e -> e <= 20)
+                .forEach(System.out::println);
+    }
+}
+		</pre>
+		<hr/>
+		LazyEvaluationApp.java
+		<pre>
+import java.util.Arrays;
+import java.util.List;
+
+public class LazyEvaluationApp {
+
+    public static void main(String[] args) {
+
+        int[] factor = { 2 };
+        List<Integer> nums = Arrays.asList(1, 2, 3);
+
+        var stream = nums.stream().map(e-> e*factor[0]);
+
+        factor[0] = 0;
+        stream.forEach(System.out::println);
+    }
+}
+		</pre>
+		<hr/>
+		LocalVariableApp.java
+		<pre>
+import java.util.ArrayList;
+import java.util.List;
+
+public class LocalVariableApp {
+
+    public static void main(String[] args) {
+
+        // TypeReferenceTest / Local Variable Type Inference JDK 10
+        List<String> names1 = List.of("Ranga", "Ravi");
+        List<String> names2 = List.of("John", "Adam");
+
+        var newList = List.of(names1, names2);
+
+        newList.stream().forEach(System.out::println);
+
+    }
+}
+		</pre>
+		<hr/>
+		MapObjectApp.java
+		<pre>
+import java.util.Arrays;
+import java.util.List;
+
+public class MapObjectApp {
+
+    public static int getPrice() {
+        return (int) (Math.random() * 1000);
+    }
+    public static void main(String[] args) {
+
+        List<String> tickers = Arrays.asList("GOOGLE", "FB", "AMAZON", "OLA");
+
+        var tickersAndPrice = tickers.stream().map(theTicker -> new Object() {String ticker = theTicker; int price = getPrice();});
+
+        tickersAndPrice.forEach(data -> System.out.printf("%s == %d \n", data.ticker, data.price));
+    }
+}
+		</pre>
+		<hr/>
+		PatternmatchWithGuardApp.java
+		<pre>
+class Vehicle {}
+class Truck extends Vehicle {}
+class Car extends Vehicle {
+    private boolean electric;
+    public Car(boolean electric) { this.electric = electric; }
+    public boolean isElectric() { return electric; }
+}
+
+public class PatternmatchWithGuardApp {
+    public static String process(Vehicle input) {
+        return switch(input) {
+            case Truck t -> "fill up";
+            case Car c && c.isElectric() -> "charge";
+            case Car c -> "fill up";
+            default -> "Whatever";
+        };
+    }
+
+    public static void main(String[] args) {
+        System.out.println(process(new Truck()));
+        System.out.println(process(new Car(false)));
+        System.out.println(process(new Car(true)));
+    }
+}
+
+		</pre>
+		<hr/>
+		PredicateApp.java
+		<pre>
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class PredicateApp {
+
+    public static int totalValues(List<Integer> number, Predicate<Integer> selector) {
+
+        return number.stream().filter(selector).mapToInt(e->e).sum();
+    }
+
+    public static void main(String[] args) {
+
+        List<Integer> num = Arrays.asList(1, 4, 2, 5, 3, 6, 7);
+
+        System.out.println("Total : "+totalValues(num, ignore -> true));
+
+        System.out.println("Even Total "+totalValues(num, number -> number%2 == 0));
+        System.out.println("Odd Total "+totalValues(num, number -> number%2 != 0));
+    }
+}
+
+		</pre>
+		<hr/>
+		PredicateNotApp.java
+		<pre>
+import java.util.List;
+import java.util.function.Predicate;
+
+public class PredicateNotApp {
+
+    public static boolean isEven(Integer no) {
+        return no%2==0;
+    }
+
+    public static void main(String[] args) {
+
+        List<Integer> numbers = List.of(10, 12, 11, 16, 18, 17, 22, 15);
+
+//		Predicate<Integer> evenNumberPredicate = n -> n%2==0;
+
+//		numbers.stream().filter(evenNumberPredicate.negate()).forEach(System.out::println);
+
+        // JDK 11 : Returns a predicate that is the negation of the supplied predicate
+        numbers.stream().filter(Predicate.not(PredicateNotApp::isEven)).forEach(System.out::println);
+    }
+}
+		</pre>
+		<hr/>
+		RecordApp.java
+		<pre>
+public class RecordApp {
+
+    // Record Class JDK 16
+    record Person(int id, String name) {};
+
+    record Employee(int id, String name) {
+//		public Employee(int id, String name) {
+//			if(name == null) {
+//				throw new IllegalArgumentException("name is null");
+//			}
+//			this.id = id;
+//			this.name = name;
+//		}
+
+        Employee {
+            if(name == null) {
+                throw new IllegalArgumentException("name is null");
+            }
+        }
+
+        public String name() {
+            System.out.println("do something");
+            return name;
+        }
+    };
+
+    public static void main(String[] args) {
+
+        Person person1 = new Person(1, "ABC");
+        Person person2 = new Person(2, "ERT");
+        Person person3 = person1;
+
+        System.out.println(person1);
+        System.out.println(person2);
+
+        System.out.println(person1.equals(person2));
+        System.out.println(person1.equals(person3));
+
+        System.out.println(person1.name());
+
+        Employee employee = new Employee(1, "kkk");
+        System.out.println(employee.name());
+    }
+}
+		</pre>
+		<hr/>
+		RecordWithInterfaceApp.java
+		<pre>
+interface ToJson {
+    String generateJSON();
+}
+
+record Location1(double latitude, double longitude) implements ToJson {
+
+    /*
+    public Location1(double latitude, double longitude) { //not preferred
+        if(latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+            throw new RuntimeException("Out of this world");
+        }
+
+        this.latitude = Math.round(latitude * 100.0) / 100.0;
+        this.longitude = longitude;
+    }*/
+
+    //this of a compact construtor as a transformer or a map function
+    //that sits between the constructor call and the autogenerated canonical constructor.
+
+    public Location1 { //preferred
+        if(latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+            throw new RuntimeException("Out of this world");
+        }
+
+        latitude = Math.round(latitude * 100.0) / 100.0;
+    }
+
+    public String generateJSON() {
+        return """
+    {
+      "latitude": %g,
+      "longitude": %g,
+      "name": %s
+    }
+    """.formatted(latitude, longitude);
+    }
+}
+
+record Location(double latitude, double longitude, String name) implements ToJson {
+
+    public String generateJSON() {
+        return """
+    {
+      "latitude": %g,
+      "longitude": %g,
+      "name": %s
+    }
+    """.formatted(latitude, longitude, name);
+    }
+}
+
+public class RecordWithInterfaceApp {
+    public static void main(String[] args) {
+        //var alcatraz = new Location(37.827, -122.423, "The Rock");
+        var alcatraz = new Location1(37.827, -122.423);
+
+        System.out.println(alcatraz);
+        System.out.println(alcatraz.generateJSON());
+    }
+}
+
+		</pre>
+		<hr/>
+		ReduceApp.java
+		<pre>
+import java.util.Arrays;
+import java.util.List;
+
+public class ReduceApp {
+
+    public static void main(String[] args) {
+
+        List<Integer> num = Arrays.asList(1, 4, 2, 5, 3, 6, 7);
+        System.out.println("Method1 : "+num.stream().reduce(0, (a, b)->a+b));
+        System.out.println("method2 : "+num.stream().reduce(0, Integer::sum));
+    }
+}
+		</pre>
+		<hr/>
+		ResourcetryApp.java
+		<pre>
+class Resource implements AutoCloseable {
+
+    public Resource() {
+        System.out.println("Creating external resource...");
+    }
+    public void op1() {
+        System.out.println("OP1");
+    }
+    public void close() { System.out.println("called...");}
+}
+
+public class ResourcetryApp {
+
+    public static void use(Resource resource) {
+        try(resource) {
+            resource.op1();
+        }
+        System.out.println(resource.toString());
+    }
+    public static void main(String[] args) {
+
+        //try(Resource resource = new Resource()) {
+        //
+        //}
+
+       use(new Resource());
+    }
+}
+		</pre>
+		<hr/>
+		SealedTest.java
+		<pre>
+// Sealed types (classes and interfaces) JDK 17
+sealed class A permits B, C {
+
+}
+
+sealed class B extends A permits D {
+
+}
+
+non-sealed class C extends A {
+
+}
+
+final class D extends B {
+
+}
+
+public class SealedTest {
+
+    public static void main(String[] args) {
+
+    }
+}
+		</pre>
+		<hr/>
+		StringMethodsApp.java
+		<pre>
+public class StringMethodsApp {
+
+    public static void main(String[] args) {
+
+        String ss = "hello";
+        System.out.print(ss.indent(1));
+        System.out.print(ss.indent(2));
+        System.out.print(ss.indent(3));
+
+        // Text Blocks JDK 15
+        String text = """
+                Happy
+                    New
+                        Year
+                """;
+
+        System.out.println(text);
+
+        // Helpful NullPointerExceptions JDK 14
+//        String kk = null;
+//        System.out.println(kk.toLowerCase());
+
+        StringMethodsApp app = new StringMethodsApp();
+        app.checkData(35);
+
+        // JDK 11
+        System.out.println(" ".isBlank());
+        System.out.println(" testing ".strip());
+        System.out.println(" testing ".stripTrailing());
+        System.out.println(" testing ".stripLeading());
+
+        "line1\nline2\nline3".lines().forEach(System.out::println);
+
+        String output = "La ".repeat(2)+" Land";
+        System.out.println(output);
+    }
+
+    public void checkData(Object obj) {
+        // pattern Matching for instanceof JDK 16
+        if(obj instanceof String s) {
+            System.out.println("This is a String : "+s);
+        } else if(obj instanceof Integer n) {
+            System.out.println("This is Integer : "+n);
+        }
+    }
+}
+		</pre>
+		<hr/>
+		SwitchApp.java
+		<pre>
+public class SwitchApp {
+
+    public static void main(String[] args) {
+
+        //Switch Expression JDK 14
+        SwitchApp app = new SwitchApp();
+        System.out.println(app.checkDays("monday"));
+    }
+
+    private String checkDays(String day) {
+
+        return switch (day) {
+            case "monday", "tuesday", "wednesday" -> "working day";
+            case "thrusday", "friday" -> "less work";
+            case "saturday", "sunday" -> "holiday";
+            default -> "working entry";
+        };
+    }
+
+}
+		</pre>
+		<hr/>
+		SwitchNullCheckApp.java
+		<pre>
+import java.util.Arrays;
+
+public class SwitchNullCheckApp {
+
+    public static String process(Object input) {
+        return switch(input) {
+            case null -> "null is a smell";
+            case Integer i -> " a number";
+            case String str -> "a string of length " + str.length();
+            default -> "whatever";
+        };
+    }
+
+    public static void main(String[] args) {
+        Arrays.asList(1, null, "hello")
+                .stream()
+                .map(SwitchNullCheckApp::process)
+                .forEach(System.out::println);
+    }
+}
+		</pre>
+		<hr/>
+		TakeDropWhileApp.java
+		<pre>
+import java.util.Arrays;
+import java.util.List;
+
+public class TakeDropWhileApp {
+
+    public static void main(String[] args) {
+
+        List<Integer> num = Arrays.asList(10, 12, 14, 11, 18, 20, 17);
+
+        num.stream()
+//                .filter(e->e>15)
+//                .limit(2)
+//                .skip(1)
+//                .takeWhile(e->e<18)
+                .dropWhile(e->e<18)
+                .forEach(System.out::println);
+    }
+}
+		</pre>
+		<hr/>
+		Java Program to illustrate Multithreading Approach
+		<pre>
+
+// Java Program to illustrate Multithreading Approach
+// In Banking transaction system
+
+// Class 1
+// Helper class
+class Bank {
+
+    // Initial custom balance
+    int total = 100;
+
+    // Money withdrawal method. Withdraw only if total money
+    // greater than or equal to the money requested for
+    // withdrawal
+    void withdrawn(String name, int withdrawal)
+    {
+
+        if (total >= withdrawal) {
+            System.out.println(name + " withdrawn "
+                    + withdrawal);
+            total = total - withdrawal;
+
+            System.out.println(total);
+
+            // Making the thread sleep for 1 second after
+            // each withdrawal
+
+            // Try block to check for exceptions
+            try {
+
+                // Making thread to sleep for 1 second
+                Thread.sleep(1000);
+            }
+
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Else if the money requested for withdrawal is
+        // greater than the balance then deny transaction
+        else {
+
+            System.out.println(name
+                    + " you can not withdraw "
+                    + withdrawal);
+            System.out.println("your balance is: " + total);
+
+            // Making the thread sleep for 1 second after
+            // each transaction failure
+
+            try {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Method - To deposit money
+    // Accepting money whenever deposited
+    void deposit(String name, int deposit)
+    {
+        System.out.println(name + " deposited " + deposit);
+        total = total + deposit;
+        System.out.println("Balance after deposit: "
+                + total);
+        // Making the thread sleep for 1 second after
+        // each deposit
+
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+// Method - Withdraw method
+// Called from ThreadWithdrawal class
+// using the object of Bank class passed
+// from the main() method
+class ThreadWithdrawal extends Thread {
+
+    Bank object;
+    String name;
+    int dollar;
+
+    // Constructor of this method
+    ThreadWithdrawal(Bank ob, String name, int money)
+    {
+        this.object = ob;
+        this.name = name;
+        this.dollar = money;
+    }
+
+    // run() method for thread
+    public void run() { object.withdrawn(name, dollar); }
+}
+// Deposit method is called from ThreadDeposit class
+// using the object of Bank class passed
+// from the main method
+class ThreadDeposit extends Thread {
+
+    Bank object;
+    String name;
+    int dollar;
+    ThreadDeposit(Bank ob, String name, int money)
+    {
+        // This keyword refers t ocurrent instance itself
+        this.object = ob;
+        this.name = name;
+        this.dollar = money;
+    }
+
+    public void run() { object.deposit(name, dollar); }
+}
+
+// Class 2
+// Main class
+class GFG {
+
+    // Main driver method
+    public static void main(String[] args)
+    {
+        // Declaring an object of Bank class and passing the
+        // object along with other parameters to the
+        // ThreadWithdrawal and ThreadDeposit class. This
+        // will be required to call withdrawn and deposit
+        // methods from those class
+
+        // Creating an object of class1
+        Bank obj = new Bank();
+
+        ThreadWithdrawal t1
+                = new ThreadWithdrawal(obj, "Arnab", 20);
+        ThreadWithdrawal t2
+                = new ThreadWithdrawal(obj, "Monodwip", 40);
+        ThreadDeposit t3
+                = new ThreadDeposit(obj, "Mukta", 35);
+        ThreadWithdrawal t4
+                = new ThreadWithdrawal(obj, "Rinkel", 80);
+        ThreadWithdrawal t5
+                = new ThreadWithdrawal(obj, "Shubham", 40);
+
+        // When a program calls the start() method, a new
+        // thread is created and then the run() method is
+        // executed.
+
+        // Starting threads created above
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        t5.start();
+    }
+}
+
+		</pre>
+		<hr/>
+		ConvertFirstCharacterOfEveryWordToUpperCase.java
+		<pre>
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+public class ConvertFirstCharacterOfEveryWordToUpperCase {
+
+    public static void main(String[] args) {
+
+        // 1. sample string
+        String str = "this world has very good leader"
+                + " only that they need to be identified";
+
+        // 1.1 print to console
+        System.out.println("Original String :- \n" + str);
+
+        var result = Arrays.stream(str.split(" "))
+//                .map(e->String.valueOf(e.charAt(0)).toUpperCase() + e.substring(1, e.length()))
+                .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
+                .collect(Collectors.joining(" "));
+//                .forEach(System.out::println);
+
+        System.out.println(result);
+    }
+}
+
+		</pre>
+		<hr/>
+		CountRepeatedWordsUsingJava8.java
+		<pre>
+import java.util.Comparator;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.AbstractMap.SimpleEntry;
+
+public class CountRepeatedWordsUsingJava8 {
+
+    public static void main(String[] args) {
+
+        String text = "When a bank customer calls a TFN, all his details are collected through IVR and call is routed to agent, the customer will need to hold on with the call until it is sent to the right agent, which is time-taking and gives a bad customer experience.";
+
+        String[] textarr = text.split(" ");
+
+//        for (String ss : textarr) {
+//            System.out.println(ss);
+//        }
+
+        Map<String, Long> wordCountMap  = Stream.of(textarr)
+                .map(word -> word.replaceAll("[^a-zA-Z]", "").trim()) // remove white-spaces
+                .filter(word -> word.length() > 0) // filter word length greater than 1
+                .map(word -> new SimpleEntry<>(word, 1)) // put it in temp Entry
+                .collect(Collectors.groupingBy(SimpleEntry::getKey, Collectors.counting()));
+
+
+        // print to the console
+        System.out.println("1. Words and its Count in Random-order :- \n");
+        wordCountMap
+                .entrySet()
+                .forEach(System.out::println);
+
+
+        // print to the console
+        System.out.println("\n\n2. Words and its Count in Descending-order :- \n");
+        wordCountMap
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEach(System.out::println);
+
+
+        // count repeated words, ignoring case
+        Map<String, Integer> wordCountMap1 = Pattern.compile("\\W+")
+                .splitAsStream(text)
+                .filter(word -> !word.isEmpty()) // filter words which isn't empty
+                .collect(Collectors.groupingBy(String::toLowerCase,
+                        Collectors.summingInt(s -> 1))); // calculate repeated count
+
+
+        // print to the console
+        System.out.println("1. Words and its Count in Random-order :- \n");
+        wordCountMap1
+                .entrySet()
+                .forEach(System.out::println);
+
+
+        // print to the console
+        System.out.println("\n\n2. Words and its Count in Descending-order :- \n");
+        wordCountMap1
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEach(System.out::println);
+
+    }
+}
+		</pre>
+		<hr/>
+		FindAllLongestStringInList.java
+		<pre>
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class FindAllLongestStringInList {
+
+    public static void main(String[] args) {
+
+        // 1. names with different length
+        List<String> names = Arrays.asList(
+                "Bond",
+                "James",
+                "Einstein",
+                "Alice",
+                "Whitman",
+                "Bob",
+                "Binny",
+                "Spider",
+                "Lee",
+                "Anderson"
+        );
+
+        /*
+        names.stream()
+                .map(e->new Object() {String name=e; Integer nameSize=e.length();})
+                .sorted((a, b)->b.nameSize-a.nameSize)
+                .limit(1)
+                .forEach(e-> System.out.println(e.name+"==="+e.nameSize));
+         */
+
+        // 2. get Map of length and its List<String>
+        Map<Integer, List<String>> map = names
+                .stream()
+                .collect(Collectors.groupingBy(String::length));
+
+        // 2.1 print Map to console
+        System.out.println("Length and its List of Strings :-");
+        map.entrySet().forEach(System.out::println);
+
+
+        // 3. get Longest Strings from Map
+        List<String> longestStrings = map
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .get();
+
+
+        // 3.1 print longest Strings from List
+        System.out.println("\nLongest Strings in List :- \n" + longestStrings);
+
+        // 3. get Longest Strings from Map
+        List<String> longestStrings1 = map
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.<Integer, List<String>>comparingByKey().reversed())
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .get();
+
+
+        // 3.1 print longest Strings from List
+        System.out.println("\nLongest Strings in List :- \n" + longestStrings1);
+
+
+    }
+}
+
+		</pre>
+		<hr/>
+		FindLongestStringInList.java
+		<pre>
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+import static java.util.stream.Collectors.maxBy;
+import static java.util.stream.Collectors.summarizingInt;
+
+public class FindLongestStringInList {
+
+    public static void main(String[] args) {
+
+        // 1. names with different length
+        List<String> names = Arrays.asList(
+                "Bond",
+                "Einstein",
+                "Alice",
+                "Whitman",
+                "Bob",
+                "Spider"
+        );
+
+
+        // 1.1 print to console=
+        System.out.println("Original String List :- \n" + names);
+
+
+        // 2. find Longest name in List using max(Integer::compare).get()
+        String longestString = names
+                .stream()
+//                .max((a, b)-> a.length() - b.length())
+                .max(Comparator.comparingInt(String::length))
+                .get();
+        System.out.println("\nLongest String is = "
+                + longestString);
+
+
+        // 2.1 find Length of Longest name in List using max(Integer::compare).get()
+        int lengthOflongestString = names
+                .stream()
+                .map(String::length)
+                .max(Integer::compare)
+                .get();
+        System.out.println("\nLength of Longest String is = "
+                + lengthOflongestString);
+
+        // 2. find Longest name using collect(Collectors.maxBy(Comparator.comparingInt(String::length)))
+        String longestStr = names
+                .stream()
+                .collect(maxBy(Comparator.comparingInt(String::length)))
+                .get();
+        System.out.println("\nLongest String is = " + longestStr);
+
+
+        // 2.1 find length of Longest name using collect(Collectors.summarizingInt(String::length))
+        int lengthofLongestStr = names
+                .stream()
+                .collect(summarizingInt(String::length))
+                .getMax();
+        System.out.println("\nLength of Longest String is = " + lengthofLongestStr);
+
+
+        // 2. find Longest String using .reduce((x, y) -> x.length() > y.length() ? x : y).get()
+        String longestStr1 = names
+                .stream()
+                .reduce((x, y) -> x.length() > y.length() ? x : y)
+                .get();
+        System.out.println("\nLongest String is = " + longestStr1);
+
+
+        // 2.1 find Length of Longest String using .reduce((x, y) -> Integer.max(x, y)).getAsInt();
+        int lengthOfLongestStr = names
+                .stream()
+                .mapToInt(String::length)
+                .reduce((x, y) -> Integer.max(x, y))
+                .getAsInt();
+        System.out.println("\nLength of Longest String is = " + lengthOfLongestStr);
+
+    }
+
+}
+
+		</pre>
+		<hr/>
+		FindThirdLongestStringInList.java
+		<pre>
+import java.time.Duration;
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+public class FindThirdLongestStringInList {
+
+    public static void main(String[] args) {
+
+
+        // 1. names with different length
+        List<String> names = Arrays.asList(
+                "Bond",
+                "Einstein",
+                "Alice",
+                "Whitman",
+                "Bob",
+                "Spider"
+        );
+
+        names.stream()
+                .sorted((a, b)->b.length()-a.length())
+//                .sorted(Comparator.comparing(String::length).reversed())
+                .limit(3)
+                .skip(2)
+                .forEach(System.out::println);
+
+
+
+        /*
+        // 1. names with different length
+        String[] names = new String[] {
+                "Bond",
+                "Einstein",
+                "Alice",
+                "Whitman",
+                "Bob",
+                "Spider"
+        };
+
+
+        // 1.1 print to console
+        System.out.println("Original String[] Arrays :- \n"
+                + Arrays.toString(names));
+
+
+        // 2. Execution - start time
+        LocalTime startTime = LocalTime.now();
+
+
+        // 2.1 sort in descending-order acc. to String length
+        String thirdLongestString = Arrays
+                .stream(names)
+                .sorted(Comparator.comparing(String::length).reversed())
+                .skip(2)
+                .findFirst()
+                .get();
+
+
+        // 2.2 Execution - end time
+        LocalTime endTime = LocalTime.now();
+
+
+        // 2.3 find difference
+        Duration duration = Duration.between(startTime, endTime);
+        long differenceInNano = duration.getNano();
+
+
+        // 2.4 print sum to console
+        System.out.println("\nThird longest String in an Arrays is - "
+                + thirdLongestString);
+
+
+        // 2.5 print execution time in Nano seconds
+        System.out.println("\nExecution time - "
+                + differenceInNano + " ns");
+
+         */
+
+    }
+}
+		</pre>
+		<hr/>
+		ForEachVsForEachOrdered.java
+		<pre>
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+public class ForEachVsForEachOrdered {
+
+    public static void main(String[] args) {
+
+        LocalDateTime startLocalDateTime = null;
+        LocalDateTime endLocalDateTime = null;
+        Duration duration = null;
+
+        // create List of String elements
+        List<String> names = Arrays.asList(
+                "Vijay",
+                "Ajith",
+                "Kamal",
+                "Rajini",
+                "Dhanush",
+                "Simbhu",
+                "Surya",
+                "Vikram",
+                "Arya",
+                "Vishal"
+        );
+
+
+        System.out.println("1. Names in the original List in LOWER CASE :- \n\n"
+                + names);
+
+        // SEQUENTIAL - convert names to Upper case and print to console
+        System.out.println("\n\n2. Names after UPPER CASE conversion"
+                + " in forEach SEQUENTIAL processing :- \n");
+
+        // get start time
+        startLocalDateTime = LocalDateTime.now();
+
+        names // original source
+                .stream() // 1. get SEQUENTIAL stream from source
+                .map(name -> name.toUpperCase()) // 2. map intermediate operation
+                .forEach(System.out::println); // 3. forEach terminal operation
+
+        // get end time after sequential processing
+        endLocalDateTime = LocalDateTime.now();
+        duration = Duration.between(startLocalDateTime, endLocalDateTime);
+        System.out.println("\nTime difference in Milliseconds"
+                + " after SEQUENTIAL processing = " + duration.toMillis() + " ms");
+
+
+        // PARALLEL - convert names to Upper case and print to console
+        System.out.println("\n\n3. Names after UPPER CASE conversion"
+                + " in forEach PARALLEL processing :- \n");
+
+        // get start time
+        startLocalDateTime = LocalDateTime.now();
+
+        names // original source
+                .parallelStream() // 1. get PARALLEL stream from source
+                .map(name -> name.toUpperCase()) // 2. map intermediate operation
+//                .forEach(System.out::println); // 3. forEach terminal operation
+                .forEachOrdered(System.out::println);
+
+        // get end time after parallel processing
+        endLocalDateTime = LocalDateTime.now();
+        duration = Duration.between(startLocalDateTime, endLocalDateTime);
+        System.out.println("\nTime difference in Milliseconds"
+                + " after PARALLEL processing = " + duration.toMillis() + " ms");
+    }
+
+}
+		</pre>
+		<hr/>
+		MergeListUsingJava8.java
+		<pre>
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class MergeListUsingJava8 {
+
+    public static void main(String[] args) {
+
+        // list 1 - fruits
+        List<String> fruits = Arrays.asList(
+                "Apple",
+                "Mango",
+                "Grape",
+                "Cherry",
+                "Melon"
+        );
+//        System.out.println("Fruit List :- \n" + fruits);
+
+        // list 2 - vegetables
+        List<String> veggies = Arrays.asList(
+                "Carrot",
+                "Radish",
+                "Lettuce",
+                "Bean",
+                "Gourd"
+        );
+//        System.out.println("\nVeggies List :- \n" + veggies);
+
+        /*
+        var mergeList = Arrays.asList(fruits, veggies);
+
+        mergeList.stream()
+                .flatMap(e->e.stream())
+                .forEach(System.out::println);
+         */
+
+        /*
+        // Merging 2 lists
+        List<String> mergedList = Stream
+                .concat(fruits.stream(), veggies.stream())
+                .collect(Collectors.toList());
+         */
+
+        // Merging 2 lists
+        List<String> mergedList = Stream
+                .of(fruits, veggies)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
+
+        // print merged list to the console
+        System.out.println("\nMerged List :- \n" + mergedList);
+
+
+    }
+}
+		</pre>
+		<hr/>
+		ProductLocalDateTimeSorting.java
+		<pre>
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+class Product {
+
+    // member variables
+    private int prodId;
+    private String prodName;
+    private LocalDateTime prodCreatedDate;
+    private double prodRate;
+
+    public Product(int prodId, String prodName, LocalDateTime prodCreatedDate, double prodRate) {
+        this.prodId = prodId;
+        this.prodName = prodName;
+        this.prodCreatedDate = prodCreatedDate;
+        this.prodRate = prodRate;
+    }
+
+    public int getProdId() {
+        return prodId;
+    }
+
+    public void setProdId(int prodId) {
+        this.prodId = prodId;
+    }
+
+    public String getProdName() {
+        return prodName;
+    }
+
+    public void setProdName(String prodName) {
+        this.prodName = prodName;
+    }
+
+    public LocalDateTime getProdCreatedDate() {
+        return prodCreatedDate;
+    }
+
+    public void setProdCreatedDate(LocalDateTime prodCreatedDate) {
+        this.prodCreatedDate = prodCreatedDate;
+    }
+
+    public double getProdRate() {
+        return prodRate;
+    }
+
+    public void setProdRate(double prodRate) {
+        this.prodRate = prodRate;
+    }
+
+    // override toString() method
+    @Override
+    public String toString() {
+        return "Product [prodId=" + prodId
+                + ", prodCreatedDate=" + prodCreatedDate
+                + ", prodRate=" + prodRate
+                + ", prodName=" + prodName
+                + "]";
+    }
+}
+
+public class ProductLocalDateTimeSorting {
+
+    public static void main(String[] args) {
+
+        // 1. products
+        Product product1 = new Product(1, "Cooker",
+                LocalDateTime.of(2022, Month.MAY, 31, 12, 35, 59), 13750.0);
+        Product product2 = new Product(2, "Sofa-Bed",
+                LocalDateTime.of(2022, Month.MAY, 31, 11, 49, 53), 11750.0);
+        Product product3 = new Product(3, "Fridge",
+                LocalDateTime.of(2022, Month.JUNE, 18, 5, 30, 49), 12750.0);
+        Product product4 = new Product(4, "Cupboard",
+                LocalDateTime.of(2022, Month.JUNE, 18, 4, 45, 37), 11525.0);
+        Product product5 = new Product(5, "Utensils",
+                LocalDateTime.of(2022, Month.JANUARY, 10, 12, 45, 01), 17050.0);
+
+
+        // 1.1 List of Products
+        List<Product> products = new ArrayList<Product>();
+        products.add(product1);
+        products.add(product2);
+        products.add(product3);
+        products.add(product4);
+        products.add(product5);
+
+
+        // 1.2 print to console
+        System.out.println("Before sorting :- \n");
+        for(Product prod : products) {
+            System.out.println(prod);
+        }
+
+        /*
+        var prodList = products.stream()
+                .sorted((a, b) -> a.getProdCreatedDate().compareTo(b.getProdCreatedDate()))
+                .toList();
+
+        System.out.println("After sorting :- \n");
+        for(Product prod : prodList) {
+            System.out.println(prod);
+        }
+         */
+
+        // 2. ascending-order sorting using Method References
+        products.sort(Comparator.comparing(Product::getProdCreatedDate));
+
+
+        // 2.1 print to console
+        System.out.println("\n\nAscending-order sorting on the basis of LocalDateTime :- \n");
+        products.forEach(System.out::println);
+
+
+        // 3. descending-order sorting using Method References
+        products.sort(Comparator.comparing(Product::getProdCreatedDate).reversed());
+
+
+        // 3.1 print to console - descending order
+        System.out.println("\n\nDescending-order sorting on the basis of LocalDateTime :- \n");
+        products.forEach(System.out::println);
+
+
+    }
+}
+		</pre>
+		<hr/>
+		StreamPeekFilterMapMethod.java
+		<pre>
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class StreamPeekFilterMapMethod {
+
+    public static void main(String[] args) {
+
+        // order -> filter, peek, map, peek
+        System.out.println("Filtering (str.length>3) and Mapping (str.UpperCase) :- \n");
+        List<String> numbers =
+                Stream.of("one", "two", "three", "four") // data source
+                        .filter(e -> e.length() > 3) // filter
+                        .peek(e -> System.out.println("Filtered value: " + e))
+                        .map(String::toUpperCase) // map
+                        .peek(e -> System.out.println("Mapped value: " + e))
+                        .collect(Collectors.toList()); // terminal operation
+
+        // print to console
+        System.out.println("\n\nAfter filtering and mapping to UpperCase :- ");
+        numbers.stream().forEach(System.out::println);
+    }
+
+}
+		</pre>
+		<hr/>
+
+
+	</body>
+</html>
