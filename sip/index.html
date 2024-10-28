@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIP & Lumpsum Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Investment Calculator</h1>
+        </header>
+
+        <div class="tab-container">
+            <button onclick="showTab('sip')" id="sip-tab" class="active-tab">SIP</button>
+            <button onclick="showTab('lumpsum')" id="lumpsum-tab">Lumpsum</button>
+        </div>
+
+        <div id="sip-calculator" class="calculator">
+            <div class="input-section">
+                <label for="monthlyInvestment">Monthly Investment (₹)</label>
+                <div class="slider-container">
+                    <input type="range" id="monthlyInvestmentSlider" min="1000" max="100000" value="5000" oninput="updateValue('monthlyInvestment', this.value)">
+                    <input type="number" id="monthlyInvestment" value="5000" oninput="updateSlider('monthlyInvestmentSlider', this.value)">
+                </div>
+
+                <label for="annualRate">Expected Return Rate (p.a.)</label>
+                <div class="slider-container">
+                    <input type="range" id="annualRateSlider" min="1" max="20" value="12" oninput="updateValue('annualRate', this.value)">
+                    <input type="number" id="annualRate" value="12" oninput="updateSlider('annualRateSlider', this.value)">
+                </div>
+
+                <label for="investmentPeriod">Investment Period (Years)</label>
+                <div class="slider-container">
+                    <input type="range" id="investmentPeriodSlider" min="1" max="30" value="10" oninput="updateValue('investmentPeriod', this.value)">
+                    <input type="number" id="investmentPeriod" value="10" oninput="updateSlider('investmentPeriodSlider', this.value)">
+                </div>
+
+                <button onclick="calculateSIP()">Calculate SIP</button>
+
+                <div class="result-summary">
+                    <p><span>Invested Amount:</span> ₹<span id="sipTotalInvestment">0</span></p>
+                    <p><span>Est. Returns:</span> ₹<span id="sipExpectedReturns">0</span></p>
+                    <p><span>Total Value:</span> ₹<span id="sipTotalValue">0</span></p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="sipChart"></canvas>
+            </div>
+        </div>
+
+        <div id="lumpsum-calculator" class="calculator" style="display: none;">
+            <div class="input-section">
+                <label for="lumpsumAmount">Lumpsum Investment (₹)</label>
+                <div class="slider-container">
+                    <input type="range" id="lumpsumAmountSlider" min="10000" max="1000000" value="100000" oninput="updateValue('lumpsumAmount', this.value)">
+                    <input type="number" id="lumpsumAmount" value="100000" oninput="updateSlider('lumpsumAmountSlider', this.value)">
+                </div>
+
+                <label for="lumpsumRate">Expected Return Rate (p.a.)</label>
+                <div class="slider-container">
+                    <input type="range" id="lumpsumRateSlider" min="1" max="20" value="12" oninput="updateValue('lumpsumRate', this.value)">
+                    <input type="number" id="lumpsumRate" value="12" oninput="updateSlider('lumpsumRateSlider', this.value)">
+                </div>
+
+                <label for="lumpsumPeriod">Investment Period (Years)</label>
+                <div class="slider-container">
+                    <input type="range" id="lumpsumPeriodSlider" min="1" max="30" value="10" oninput="updateValue('lumpsumPeriod', this.value)">
+                    <input type="number" id="lumpsumPeriod" value="10" oninput="updateSlider('lumpsumPeriodSlider', this.value)">
+                </div>
+
+                <button onclick="calculateLumpsum()">Calculate Lumpsum</button>
+
+                <div class="result-summary">
+                    <p><span>Invested Amount:</span> ₹<span id="lumpsumTotalInvestment">0</span></p>
+                    <p><span>Est. Returns:</span> ₹<span id="lumpsumExpectedReturns">0</span></p>
+                    <p><span>Total Value:</span> ₹<span id="lumpsumTotalValue">0</span></p>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="lumpsumChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f8fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+header h1 {
+    color: #0066cc;
+    font-size: 24px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.tab-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-container button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: #333;
+}
+
+.tab-container .active-tab {
+    background-color: #00c853;
+    color: white;
+}
+
+.calculator {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.input-section {
+    width: 50%;
+    padding-right: 20px;
+}
+
+label {
+    font-size: 14px;
+    color: #555;
+    display: block;
+    margin-top: 15px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type="range"] {
+    width: 70%;
+    accent-color: #00c853;
+}
+
+input[type="number"] {
+    width: 25%;
+    padding: 5px;
+    border: none;
+    background-color: #e0f7fa;
+    color: #00c853;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 5px;
+    outline: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #005bb5;
+}
+
+.result-summary {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.result-summary p {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.result-summary p span {
+    font-weight: bold;
+}
+
+.chart-container {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    width: 100%;
+    height: auto;
+}
